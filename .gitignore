@@ -1241,3 +1241,7 @@ Drivers/CMSIS/RTOS2/Template/cmsis_os.h
 Drivers/CMSIS/RTOS2/Template/cmsis_os1.c
 Drivers/CMSIS/LICENSE.txt
 Drivers/STM32H7xx_HAL_Driver/LICENSE.txt
+build/operator_panel.bin
+build/operator_panel.elf
+build/operator_panel.hex
+build/operator_panel.map
