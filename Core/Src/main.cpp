@@ -127,9 +127,13 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    HAL_Delay(500);
+
+    //test code here
+    HAL_Delay(1000);
     HAL_GPIO_TogglePin(LED_OK_GPIO_Port, LED_OK_Pin);
-    std::cout << "Hello world" << std::endl;
+    static int counter = 0;
+    std::cout << "iteration #" << ++counter << std::endl;
+
   }
   /* USER CODE END 3 */
 }
