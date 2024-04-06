@@ -1,89 +1,18 @@
-/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
   * @file           : main.c
   * @brief          : Main program body
   ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2024 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
-/* USER CODE END Header */
+*/
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "gpio.h"
-
-/* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */
 #include <iostream>
-/* USER CODE END Includes */
-
-/* Private typedef -----------------------------------------------------------*/
-/* USER CODE BEGIN PTD */
-
-/* USER CODE END PTD */
-
-/* Private define ------------------------------------------------------------*/
-/* USER CODE BEGIN PD */
-
-/* USER CODE END PD */
-
-/* Private macro -------------------------------------------------------------*/
-/* USER CODE BEGIN PM */
-
-/* USER CODE END PM */
-
-/* Private variables ---------------------------------------------------------*/
-
-/* USER CODE BEGIN PV */
-
-/* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MPU_Config(void);
-/* USER CODE BEGIN PFP */
-
-/* USER CODE END PFP */
-
-/* Private user code ---------------------------------------------------------*/
-/* USER CODE BEGIN 0 */
-void SWO_ITM_enable(void)
-{
-  /*
-    This functions recommends system speed of 480000000Hz and will
-    use SWO clock speed of 2000000Hz
-
-    # GDB OpenOCD commands to connect to this:
-    monitor tpiu config internal - uart off 480000000
-    monitor itm port 0 on
-
-    Code Gen Ref: https://gist.github.com/mofosyne/178ad947fdff0f357eb0e03a42bcef5c
-  */
-
-  /* Setup SWO and SWO funnel (Note: SWO_BASE and SWTF_BASE not defined in stm32h743xx.h) */
-  // DBGMCU_CR : Enable D3DBGCKEN D1DBGCKEN TRACECLKEN Clock Domains
-  DBGMCU->CR =  DBGMCU_CR_DBG_CKD3EN | DBGMCU_CR_DBG_CKD1EN | DBGMCU_CR_DBG_TRACECKEN; // DBGMCU_CR
-  // SWO_LAR & SWTF_LAR : Unlock SWO and SWO Funnel
-  *((uint32_t *)(0x5c003fb0)) = 0xC5ACCE55; // SWO_LAR
-  *((uint32_t *)(0x5c004fb0)) = 0xC5ACCE55; // SWTF_LAR
-  // SWO_CODR  : 480000000Hz -> 2000000Hz
-  // Note: SWOPrescaler = ((sysclock_Hz / SWOSpeed_Hz) - 1) --> 0x0000c7 = 239 = (480000000 / 2000000) - 1)
-  *((uint32_t *)(0x5c003010)) = ((480000000 /  2000000) - 1); // SWO_CODR
-  // SWO_SPPR : (2:  SWO NRZ, 1:  SWO Manchester encoding)
-  *((uint32_t *)(0x5c0030f0)) = 0x00000002; // SWO_SPPR
-  // SWTF_CTRL : enable SWO
-  *((uint32_t *)(0x5c004000)) |= 0x1; // SWTF_CTRL
-}
-
-/* USER CODE END 0 */
+void SWO_ITM_enable(void);
 
 /**
   * @brief  The application entry point.
@@ -91,43 +20,23 @@ void SWO_ITM_enable(void)
   */
 int main(void)
 {
-  /* USER CODE BEGIN 1 */
-
-  /* USER CODE END 1 */
-
   /* MPU Configuration--------------------------------------------------------*/
   MPU_Config();
 
   /* MCU Configuration--------------------------------------------------------*/
-
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
-
-  /* USER CODE BEGIN Init */
-
-  /* USER CODE END Init */
-
   /* Configure the system clock */
   SystemClock_Config();
-
-  /* USER CODE BEGIN SysInit */
-
-  /* USER CODE END SysInit */
-
   /* Initialize all configured peripherals */
+  /* Configure GPIO */
   MX_GPIO_Init();
-  /* USER CODE BEGIN 2 */
+  /* Configure SWO debug interface */
   SWO_ITM_enable();
-  /* USER CODE END 2 */
 
   /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
-
-    /* USER CODE BEGIN 3 */
-
     //test code here
     HAL_Delay(1000);
     HAL_GPIO_TogglePin(LED_OK_GPIO_Port, LED_OK_Pin);
@@ -135,7 +44,6 @@ int main(void)
     std::cout << "iteration #" << ++counter << std::endl;
 
   }
-  /* USER CODE END 3 */
 }
 
 /**
@@ -205,12 +113,10 @@ void SystemClock_Config(void)
   HAL_RCC_EnableCSS();
 }
 
-/* USER CODE BEGIN 4 */
-
-/* USER CODE END 4 */
-
-/* MPU Configuration */
-
+/**
+  * @brief MPU Configuration
+  * @retval None
+  */
 void MPU_Config(void)
 {
   MPU_Region_InitTypeDef MPU_InitStruct = {0};
@@ -239,18 +145,48 @@ void MPU_Config(void)
 }
 
 /**
+  * @brief SWO debug interface configuration
+  * @retval None
+  */
+void SWO_ITM_enable(void)
+{
+  /*
+    This functions recommends system speed of 480000000Hz and will
+    use SWO clock speed of 2000000Hz
+
+    # GDB OpenOCD commands to connect to this:
+    monitor tpiu config internal - uart off 480000000
+    monitor itm port 0 on
+
+    Code Gen Ref: https://gist.github.com/mofosyne/178ad947fdff0f357eb0e03a42bcef5c
+  */
+
+  /* Setup SWO and SWO funnel (Note: SWO_BASE and SWTF_BASE not defined in stm32h743xx.h) */
+  // DBGMCU_CR : Enable D3DBGCKEN D1DBGCKEN TRACECLKEN Clock Domains
+  DBGMCU->CR =  DBGMCU_CR_DBG_CKD3EN | DBGMCU_CR_DBG_CKD1EN | DBGMCU_CR_DBG_TRACECKEN; // DBGMCU_CR
+  // SWO_LAR & SWTF_LAR : Unlock SWO and SWO Funnel
+  *((uint32_t *)(0x5c003fb0)) = 0xC5ACCE55; // SWO_LAR
+  *((uint32_t *)(0x5c004fb0)) = 0xC5ACCE55; // SWTF_LAR
+  // SWO_CODR  : 480000000Hz -> 2000000Hz
+  // Note: SWOPrescaler = ((sysclock_Hz / SWOSpeed_Hz) - 1) --> 0x0000c7 = 239 = (480000000 / 2000000) - 1)
+  *((uint32_t *)(0x5c003010)) = ((480000000 /  2000000) - 1); // SWO_CODR
+  // SWO_SPPR : (2:  SWO NRZ, 1:  SWO Manchester encoding)
+  *((uint32_t *)(0x5c0030f0)) = 0x00000002; // SWO_SPPR
+  // SWTF_CTRL : enable SWO
+  *((uint32_t *)(0x5c004000)) |= 0x1; // SWTF_CTRL
+}
+
+/**
   * @brief  This function is executed in case of error occurrence.
   * @retval None
   */
 void Error_Handler(void)
 {
-  /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
   __disable_irq();
   while (1)
   {
   }
-  /* USER CODE END Error_Handler_Debug */
 }
 
 #ifdef  USE_FULL_ASSERT
@@ -263,9 +199,7 @@ void Error_Handler(void)
   */
 void assert_failed(uint8_t *file, uint32_t line)
 {
-  /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-  /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
