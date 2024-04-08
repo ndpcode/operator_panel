@@ -1,22 +1,11 @@
-/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
   * @file    stm32h7xx_hal_conf.h
   * @author  MCD Application Team
   * @brief   HAL configuration file.
   ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2017 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
   */
-/* USER CODE END Header */
+
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef STM32H7xx_HAL_CONF_H
 #define STM32H7xx_HAL_CONF_H
@@ -34,7 +23,7 @@
   */
 #define HAL_MODULE_ENABLED
 
-  /* #define HAL_ADC_MODULE_ENABLED   */
+/* #define HAL_ADC_MODULE_ENABLED   */
 /* #define HAL_FDCAN_MODULE_ENABLED   */
 /* #define HAL_FMAC_MODULE_ENABLED   */
 /* #define HAL_CEC_MODULE_ENABLED   */
@@ -236,7 +225,7 @@
   * @brief Uncomment the line below to expanse the "assert_param" macro in the
   *        HAL drivers code
   */
-/* #define USE_FULL_ASSERT    1U */
+#define USE_FULL_ASSERT    1U
 
 /* Includes ------------------------------------------------------------------*/
 /**
