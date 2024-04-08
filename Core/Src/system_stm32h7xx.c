@@ -20,16 +20,6 @@
   *
   *
   ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2017 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
   */
 
 /** @addtogroup CMSIS
@@ -48,7 +38,7 @@
 #include <math.h>
 
 #if !defined  (HSE_VALUE)
-#define HSE_VALUE    ((uint32_t)25000000) /*!< Value of the External oscillator in Hz */
+#define HSE_VALUE    ((uint32_t)8000000) /*!< Value of the External oscillator in Hz */
 #endif /* HSE_VALUE */
 
 #if !defined  (CSI_VALUE)
@@ -145,7 +135,7 @@
                is no need to call the 2 first functions listed above, since SystemCoreClock
                variable is updated automatically.
   */
-  uint32_t SystemCoreClock = 64000000;
+  uint32_t SystemCoreClock = 480000000;
   uint32_t SystemD2Clock = 64000000;
   const  uint8_t D1CorePrescTable[16] = {0, 0, 0, 0, 1, 2, 3, 4, 1, 2, 3, 4, 6, 7, 8, 9};
 
@@ -299,6 +289,7 @@ void SystemInit (void)
 
 #endif /*DUAL_CORE && CORE_CM4*/
 }
+//---------------------------------------------------------------------------------------------------------//
 
 /**
    * @brief  Update SystemCoreClock variable according to Clock Register Values.
@@ -435,7 +426,7 @@ void SystemCoreClockUpdate (void)
   SystemCoreClock = common_system_clock;
 #endif /* DUAL_CORE && CORE_CM4 */
 }
-
+//---------------------------------------------------------------------------------------------------------//
 
 /**
   * @}

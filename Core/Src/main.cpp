@@ -14,10 +14,11 @@ void SystemClock_Config(void);
 static void MPU_Config(void);
 void SWO_ITM_enable(void);
 
+//---------------------------------------------------------------------------------------------------------//
 /**
   * @brief  The application entry point.
   * @retval int
-  */
+*/
 int main(void)
 {
   /* MPU Configuration--------------------------------------------------------*/
@@ -45,6 +46,7 @@ int main(void)
 
   }
 }
+//---------------------------------------------------------------------------------------------------------//
 
 /**
   * @brief System Clock Configuration
@@ -112,6 +114,7 @@ void SystemClock_Config(void)
   */
   HAL_RCC_EnableCSS();
 }
+//---------------------------------------------------------------------------------------------------------//
 
 /**
   * @brief MPU Configuration
@@ -143,6 +146,7 @@ void MPU_Config(void)
   HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
 
 }
+//---------------------------------------------------------------------------------------------------------//
 
 /**
   * @brief SWO debug interface configuration
@@ -175,6 +179,25 @@ void SWO_ITM_enable(void)
   // SWTF_CTRL : enable SWO
   *((uint32_t *)(0x5c004000)) |= 0x1; // SWTF_CTRL
 }
+//---------------------------------------------------------------------------------------------------------//
+
+/**
+  * @brief  Function for write data to SWO port.
+  * @param file, ptr, len Write to file [file], string [ptr] with length [len]
+  * @retval int
+  */
+extern "C" {
+int _write(int file, char *ptr, int len)
+{
+  int DataIdx;
+	for (DataIdx = 0; DataIdx < len; DataIdx++)
+	{
+		ITM_SendChar(*ptr++);
+	}
+	return len;
+}
+}
+//---------------------------------------------------------------------------------------------------------//
 
 /**
   * @brief  This function is executed in case of error occurrence.
@@ -188,6 +211,7 @@ void Error_Handler(void)
   {
   }
 }
+//---------------------------------------------------------------------------------------------------------//
 
 #ifdef  USE_FULL_ASSERT
 /**
