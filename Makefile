@@ -36,7 +36,8 @@ BUILD_DIR = build
 ######################################
 # CPP sources
 CPP_SOURCES =  \
-Core/Src/main.cpp
+Core/Src/main.cpp \
+Core/SDRAM/sdram.cpp
 
 # C sources
 C_SOURCES =  \
@@ -132,7 +133,8 @@ C_INCLUDES =  \
 -IDrivers/STM32H7xx_HAL_Driver/Inc \
 -IDrivers/STM32H7xx_HAL_Driver/Inc/Legacy \
 -IDrivers/CMSIS/Device/ST/STM32H7xx/Include \
--IDrivers/CMSIS/Include
+-IDrivers/CMSIS/Include \
+-ICore/SDRAM
 
 
 # compile gcc flags

@@ -1245,3 +1245,7 @@ build/operator_panel.bin
 build/operator_panel.elf
 build/operator_panel.hex
 build/operator_panel.map
+build/sdram.d
+build/sdram.lst
+build/sdram.o
+build/sdram.su
